@@ -8,7 +8,7 @@ public class TestProperties {
     Properties currentProps = new Properties();
 
     protected Properties getCurrentProps(String propKey) throws IOException {
-        FileInputStream in = new FileInputStream("C:\\AppiumTraining\\src\\main\\resources\\" + propKey);
+        FileInputStream in = new FileInputStream("C:\\Appium2\\MobileCloudProject\\src\\main\\resources\\" + propKey);
         currentProps.load(in);
         in.close();
         return currentProps;

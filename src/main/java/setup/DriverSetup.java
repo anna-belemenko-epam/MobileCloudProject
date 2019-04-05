@@ -1,11 +1,11 @@
 package setup;
 
 import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.remote.MobileCapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.io.File;
 import java.net.URL;
 
 import static java.lang.String.format;
@@ -18,12 +18,13 @@ public class DriverSetup extends TestProperties {
     protected static String AUT;
     protected static String SUT;
     protected static String TEST_PLATFORM;
-    protected static String DRIVER;
     protected static String DEVICE_NAME;
     protected static String API_KEY;
     protected static String APPIUM_HUB;
     protected static String PLATFORM_VERSION;
     protected static String PROJECT_NAME;
+    protected static String APP_PACKAGE;
+    protected static String APP_ACTIVITY;
 
     private static AppiumDriver driverSingle = null;
     private static WebDriverWait waitSingle;
@@ -47,26 +48,28 @@ public class DriverSetup extends TestProperties {
         String t_sut = getProperty("sut");
         SUT = t_sut == null ? null : "http://" + t_sut;
         TEST_PLATFORM = getProperty("platform");
-        DRIVER = getProperty("driver");
         DEVICE_NAME = getProperty("deviceName");
         API_KEY = getProperty("apiKey");
         APPIUM_HUB = getProperty("appiumHub");
         PLATFORM_VERSION = getProperty("platformVersion");
         PROJECT_NAME = getProperty("projectName");
+        APP_PACKAGE = getProperty("appPackage");
+        APP_ACTIVITY = getProperty("appActivity");
         capabilities = new DesiredCapabilities();
         String browserName;
         if ("Android".equals(TEST_PLATFORM)) {
-            capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, DEVICE_NAME);
-            browserName = "Chrome";
+            capabilities.setCapability(MobileCapabilityType.UDID, DEVICE_NAME);
+            browserName = "chrome";
         } else if ("iOS".equals(TEST_PLATFORM)){
+            capabilities.setCapability(MobileCapabilityType.UDID, DEVICE_NAME);
             browserName = "Safari";
         }
         else { throw new Exception("Unknown mobile platform");}
         capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, TEST_PLATFORM);
         capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, PLATFORM_VERSION);
         if (AUT != null && SUT == null){
-            File app = new File(AUT);
-            capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
+            capabilities.setCapability("appPackage", APP_PACKAGE);
+            capabilities.setCapability("appActivity", APP_ACTIVITY);
         } else if (SUT != null && AUT == null){
             capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, browserName);
         }

@@ -1,11 +1,9 @@
 package scenarios.NativeTests;
 
-import Utils.ADBCommandUtils;
 import org.openqa.selenium.By;
 import org.testng.annotations.Test;
 import setup.DriverSetup;
 
-import static Utils.ADBCommands.inputShownCommand;
 import static java.lang.System.*;
 import static org.testng.Assert.*;
 
@@ -24,6 +22,5 @@ public class ContactManagerTests extends DriverSetup {
         assertTrue(driver().findElement(reset_button).isDisplayed());
         assertTrue(driver().findElement(submit_button).isDisplayed());
         out.println("Simple appium test is done!");
-        assertTrue(ADBCommandUtils.execAndShowStatus(DEVICE_NAME, inputShownCommand));
     }
 }
